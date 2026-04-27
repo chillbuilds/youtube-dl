@@ -28,7 +28,7 @@ let vidCheck = (videoUrl) => {
     try {
         url = new URL(videoUrl)
 
-        if(url.origin == 'https://www.youtube.com' && url.pathname == '/watch' && !url.search.includes('&list')){
+        if(url.origin == 'https://www.youtube.com' && (url.pathname == '/watch' || url.pathname.includes('/shorts')) && !url.search.includes('&list')){
             return true
         }else if(url.search.includes('&list')){
             console.log('playlist download not supported')
