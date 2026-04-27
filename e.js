@@ -9,10 +9,11 @@ const port = process.env.PORT || 3000
 
 let downloadQueue = []
 let downloading = false
+let fileSize
 
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.urlencoded({ extended: false }))
-app.use(express.text())
+app.use(express.json())
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'))
@@ -29,14 +30,24 @@ app.post('/download-video', (req, res) => {
 setInterval(()=>{
   if(downloadQueue.length && downloading == false){
     downloading = true
-    fetchVidData(downloadQueue[0])
+    fetchVidData(downloadQueue[0].url, downloadQueue[0].quality)
+  }
+  if(downloading){
+    // fs.readFileSync()
   }
 }, 1000)
 
-let downloadVideo = (URL, title, channel) => {
+let downloadVideo = (URL, title, channel, quality) => {
+    let format = 'bv*+ba/b'
+    if(quality == 'med'){
+      format = 'bv*[height<=720]+ba/b[height<=720]'
+    }
+    if(quality == 'low'){
+      format = 'bv*[height<=360]+ba/b[height<=360]'
+    }
     youtubeDownload(URL, {
         output: `/home/will/videos/youtube/${title} - ${channel}.%(ext)s`,
-        format: 'bv*+ba/b',
+        format: format,
         mergeOutputFormat: 'mp4'
     })
     .then(output => {
@@ -48,15 +59,17 @@ let downloadVideo = (URL, title, channel) => {
     .catch(err => console.error(err))
 }
 
-async function fetchVidData(url) {
+async function fetchVidData(url, quality) {
   try {
     const info = await youtubeDownload(url, {
       dumpSingleJson: true,
       noWarnings: true,
     })
 
+    fileSize = info.filesize_approx
     console.log(`\ndownloading: ${info.title} - ${info.uploader}\n`)
-    downloadVideo(url, info.title, info.uploader)
+
+    downloadVideo(url, info.title, info.uploader, quality)
   } catch (error) {
     console.log('error downloading video')
   }

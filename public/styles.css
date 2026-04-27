@@ -3,7 +3,7 @@ body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
-input {
+#videoURLInput {
     width: 500px;
     background: #283044;
     color: #78A1BB;

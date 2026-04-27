@@ -3,22 +3,24 @@ $('body').on('keypress', function(event) {
     let enterKey = 13
     if(event.keyCode == enterKey){
         let videoUrl = $('#videoURLInput').val()
+        let quality = $('input[name=quality]:checked').attr('quality')
 
         if(vidCheck(videoUrl)){
-            sendDownloadRequest(videoUrl)
+            sendDownloadRequest(videoUrl, quality)
 
             console.log('download request sent')
         }
     }
 })
 
-let sendDownloadRequest = (videoUrl) => {
+let sendDownloadRequest = (videoUrl, quality) => {
+    let vidObj = {url: videoUrl, quality: quality}
     fetch('/download-video', {
         method: 'POST',
         headers: {
-            'Content-Type': 'text/plain'
+            'Content-Type': 'application/json'
         },
-        body: videoUrl
+        body: JSON.stringify(vidObj)
     })
     .catch(err => console.error(err))
 }
