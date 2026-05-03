@@ -19,9 +19,18 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'))
 })
 
+let bodySlam = (message, vidObj) => {
+  console.log(message)
+  console.log(vidObj)
+}
+
 app.post('/download-video', (req, res) => {
 
-  downloadQueue.push(req.body)
+  console.log(downloadQueue.includes(req.body))
+
+  if(!downloadQueue.some(vid => vid === req.body)){
+    downloadQueue.push(req.body)
+  }
 
   console.log(downloadQueue)
 
@@ -35,10 +44,11 @@ setInterval(()=>{
   if(downloading){
     // fs.readFileSync()
   }
-}, 1000)
+}, 200)
 
 let downloadVideo = (URL, title, channel, quality) => {
     let format = 'bv*+ba/b'
+
     if(quality == 'med'){
       format = 'bv*[height<=720]+ba/b[height<=720]'
     }

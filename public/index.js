@@ -8,7 +8,7 @@ $('body').on('keypress', function(event) {
         if(vidCheck(videoUrl)){
             sendDownloadRequest(videoUrl, quality)
 
-            console.log('download request sent')
+            alert('download request sent')
         }
     }
 })
@@ -30,17 +30,19 @@ let vidCheck = (videoUrl) => {
     try {
         url = new URL(videoUrl)
 
-        if(url.origin == 'https://www.youtube.com' && (url.pathname == '/watch' || url.pathname.includes('/shorts')) && !url.search.includes('&list')){
+        alert((JSON.stringify(url.origin)))
+
+        if(url.origin == 'https://www.youtube.com' && (url.pathname == '/watch' || url.pathname.includes('/shorts')) && !url.search.includes('&list') || url.origin == 'https://youtu.be'){
             return true
         }else if(url.search.includes('&list')){
-            console.log('playlist download not supported')
+            alert('playlist download not supported')
             return false
         }else{
-            console.log('not a valid url')
+            alert('not a valid url')
             return false
         }
     } catch (error) {
-        console.log('not a valid url')
+        alert('not a valid url')
     }
 
 }

@@ -7,16 +7,18 @@
     <title>youtube downloader</title>
 </head>
 <body>
-    
-    <div class="test">
-        <input id="videoURLInput" type="url">
-    </div>
 
-    <div>
-        quality: 
-        <input class="qualitySelection" type="radio" name="quality" quality="high" checked> high 
-        <input class="qualitySelection" type="radio" name="quality" quality="med"> med 
-        <input class="qualitySelection" type="radio" name="quality" quality="low"> low
+    <div id="container">
+        <div class="test">
+            <input id="videoURLInput" type="url">
+        </div>
+
+        <div id="quality">
+            quality: 
+            <input class="qualitySelection" type="radio" name="quality" quality="high" checked> high 
+            <input class="qualitySelection" type="radio" name="quality" quality="med"> med 
+            <input class="qualitySelection" type="radio" name="quality" quality="low"> low
+        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-4.0.0.js" integrity="sha256-9fsHeVnKBvqh3FB2HYu7g2xseAZ5MlN6Kz/qnkASV8U=" crossorigin="anonymous"></script>
