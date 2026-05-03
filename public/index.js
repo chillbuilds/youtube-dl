@@ -13,6 +13,10 @@ $('body').on('keypress', function(event) {
     }
 })
 
+$('#clearIcon').on('click', () => {
+    $('#videoURLInput').val('')
+})
+
 let sendDownloadRequest = (videoUrl, quality) => {
     let vidObj = {url: videoUrl, quality: quality}
     fetch('/download-video', {
@@ -29,8 +33,6 @@ let vidCheck = (videoUrl) => {
     let url
     try {
         url = new URL(videoUrl)
-
-        alert((JSON.stringify(url.origin)))
 
         if(url.origin == 'https://www.youtube.com' && (url.pathname == '/watch' || url.pathname.includes('/shorts')) && !url.search.includes('&list') || url.origin == 'https://youtu.be'){
             return true
