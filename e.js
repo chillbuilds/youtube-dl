@@ -3,6 +3,11 @@ const express = require('express')
 const path = require('path')
 const fs = require('fs')
 const { channel } = require('diagnostics_channel')
+const dotenv = require('dotenv')
+
+dotenv.config()
+
+const downloadDir = process.env.DOWNLOAD_DIR
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -56,7 +61,7 @@ let downloadVideo = (URL, title, channel, quality) => {
       format = 'bv*[height<=360]+ba/b[height<=360]'
     }
     youtubeDownload(URL, {
-        output: `../../storage/shared/Download/${title} - ${channel}.%(ext)s`,
+        output: `${downloadDir}/${title} - ${channel}.%(ext)s`,
         format: format,
         mergeOutputFormat: 'mp4'
     })
