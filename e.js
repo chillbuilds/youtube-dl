@@ -56,7 +56,7 @@ let downloadVideo = (URL, title, channel, quality) => {
       format = 'bv*[height<=360]+ba/b[height<=360]'
     }
     youtubeDownload(URL, {
-        output: `/home/will/videos/youtube/${title} - ${channel}.%(ext)s`,
+        output: `~/storage/shared/dev/${title} - ${channel}.%(ext)s`,
         format: format,
         mergeOutputFormat: 'mp4'
     })
