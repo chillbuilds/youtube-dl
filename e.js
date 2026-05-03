@@ -56,7 +56,7 @@ let downloadVideo = (URL, title, channel, quality) => {
       format = 'bv*[height<=360]+ba/b[height<=360]'
     }
     youtubeDownload(URL, {
-        output: `data/data/com.termux/files/home/storage/shared/dev/${title} - ${channel}.%(ext)s`,
+        output: `../../storage/shared/Download/${title} - ${channel}.%(ext)s`,
         format: format,
         mergeOutputFormat: 'mp4'
     })
