@@ -4,6 +4,7 @@ const path = require('path')
 const fs = require('fs')
 const { channel } = require('diagnostics_channel')
 const dotenv = require('dotenv')
+const sanitize = require('filename-sanitize')
 
 dotenv.config()
 
@@ -39,6 +40,8 @@ app.post('/download-video', (req, res) => {
 
   console.log(downloadQueue)
 
+  res.send('added to download queue')
+
 })
 
 setInterval(()=>{
@@ -52,6 +55,9 @@ setInterval(()=>{
 }, 200)
 
 let downloadVideo = (URL, title, channel, quality) => {
+
+    let fileName = sanitize(channel + ' - ' + title)
+
     let format = 'bv*+ba/b'
 
     if(quality == 'med'){
@@ -61,7 +67,7 @@ let downloadVideo = (URL, title, channel, quality) => {
       format = 'bv*[height<=360]+ba/b[height<=360]'
     }
     youtubeDownload(URL, {
-        output: `${downloadDir}/${title} - ${channel}.%(ext)s`,
+        output: `${downloadDir}/${fileName}.%(ext)s`,
         format: format,
         mergeOutputFormat: 'mp4'
     })
@@ -71,7 +77,11 @@ let downloadVideo = (URL, title, channel, quality) => {
       downloadQueue.shift()
       downloading = false
     })
-    .catch(err => console.error(err))
+    .catch(err => {
+      console.log(err)
+      downloadQueue.shift()
+      downloading = false
+    })
 }
 
 async function fetchVidData(url, quality) {
@@ -82,7 +92,9 @@ async function fetchVidData(url, quality) {
     })
 
     fileSize = info.filesize_approx
-    console.log(`\ndownloading: ${info.title} - ${info.uploader}\n`)
+    let fileName = info.uploader + '-' + info.title
+    
+    console.log(`\ndownloading: ${fileName}\n`)
 
     downloadVideo(url, info.title, info.uploader, quality)
   } catch (error) {
