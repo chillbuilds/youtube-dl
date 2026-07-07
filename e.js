@@ -4,11 +4,13 @@ const path = require('path')
 const fs = require('fs')
 const { channel } = require('diagnostics_channel')
 const dotenv = require('dotenv')
-const sanitize = require('filename-sanitize')
+const sanitize = require('sanitize-filename')
 
 dotenv.config()
 
-const downloadDir = process.env.DOWNLOAD_DIR
+const downloadDir = '../../storage/shared/Download/youtube/'
+//
+// /home/will/videos/youtube
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -92,7 +94,7 @@ async function fetchVidData(url, quality) {
     })
 
     fileSize = info.filesize_approx
-    let fileName = info.uploader + '-' + info.title
+    let fileName = info.uploader + ' - ' + info.title
     
     console.log(`\ndownloading: ${fileName}\n`)
 

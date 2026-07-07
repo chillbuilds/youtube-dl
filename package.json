@@ -17,6 +17,7 @@
     "filename-sanitize": "^0.0.2",
     "fs": "^0.0.1-security",
     "path": "^0.12.7",
+    "sanitize-filename": "^1.6.4",
     "youtube-dl-exec": "^3.1.5"
   }
 }
