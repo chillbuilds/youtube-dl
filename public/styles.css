@@ -36,5 +36,9 @@ body {
 }
 
 #quality {
+    margin-top: 10%;
+}
+
+#mediaType {
     margin-top: 20%;
 }

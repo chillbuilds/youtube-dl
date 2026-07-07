@@ -9,8 +9,7 @@ const sanitize = require('sanitize-filename')
 dotenv.config()
 
 const downloadDir = '../../storage/shared/Download/youtube/'
-//
-// /home/will/videos/youtube
+// const downloadDir = '/home/will/videos/youtube/'
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -49,44 +48,69 @@ app.post('/download-video', (req, res) => {
 setInterval(()=>{
   if(downloadQueue.length && downloading == false){
     downloading = true
-    fetchVidData(downloadQueue[0].url, downloadQueue[0].quality)
+    fetchVidData(downloadQueue[0].url, downloadQueue[0].quality, downloadQueue[0].format)
   }
   if(downloading){
     // fs.readFileSync()
   }
 }, 200)
 
-let downloadVideo = (URL, title, channel, quality) => {
+let downloadVideo = (URL, title, channel, quality, format) => {
 
     let fileName = sanitize(channel + ' - ' + title)
 
-    let format = 'bv*+ba/b'
+    if(format == 'mp3'){
 
-    if(quality == 'med'){
-      format = 'bv*[height<=720]+ba/b[height<=720]'
-    }
-    if(quality == 'low'){
-      format = 'bv*[height<=360]+ba/b[height<=360]'
-    }
-    youtubeDownload(URL, {
+      downloadDir = '../../storage/shared/Music/youtube'
+
+      youtubeDownload(URL, {
+        output: `${downloadDir}/${fileName}.%(ext)s`,
+        extractAudio: true,
+        audioFormat: "mp3",
+        audioQuality: "0"
+      })
+      .then(output => {
+        console.log(output)
+        console.log('download complete')
+        downloadQueue.shift()
+        downloading = false
+      })
+      .catch(err => {
+        console.log(err)
+        downloadQueue.shift()
+        downloading = false
+      })
+    }else if(format == 'mp4'){
+
+      let downloadFormat = 'bv*+ba/b'
+
+      if(quality == 'med'){
+        downloadFormat = 'bv*[height<=720]+ba/b[height<=720]'
+      }
+      if(quality == 'low'){
+        downloadFormat = 'bv*[height<=360]+ba/b[height<=360]'
+      }
+
+      youtubeDownload(URL, {
         output: `${downloadDir}/${fileName}.%(ext)s`,
         format: format,
         mergeOutputFormat: 'mp4'
-    })
-    .then(output => {
-      console.log(output)
-      console.log('download complete')
-      downloadQueue.shift()
-      downloading = false
-    })
-    .catch(err => {
-      console.log(err)
-      downloadQueue.shift()
-      downloading = false
-    })
+      })
+      .then(output => {
+        console.log(output)
+        console.log('download complete')
+        downloadQueue.shift()
+        downloading = false
+      })
+      .catch(err => {
+        console.log(err)
+        downloadQueue.shift()
+        downloading = false
+      })
+    }
 }
 
-async function fetchVidData(url, quality) {
+async function fetchVidData(url, quality, format) {
   try {
     const info = await youtubeDownload(url, {
       dumpSingleJson: true,
@@ -98,7 +122,7 @@ async function fetchVidData(url, quality) {
     
     console.log(`\ndownloading: ${fileName}\n`)
 
-    downloadVideo(url, info.title, info.uploader, quality)
+    downloadVideo(url, info.title, info.uploader, quality, format)
   } catch (error) {
     console.log('error downloading video')
   }

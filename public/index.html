@@ -13,11 +13,17 @@
     <div id="container">
         <input id="videoURLInput" type="url">
 
+        <div id="mediaType">
+            format: 
+            <input class="mediaTypeSelection" type="radio" name="mediaType" mediaType="mp3"> mp3
+            <input class="mediaTypeSelection" type="radio" name="mediaType" mediaType="mp4" checked> mp4
+        </div>
+
         <div id="quality">
             quality: 
-            <input class="qualitySelection" type="radio" name="quality" quality="high" checked> high 
+            <input class="qualitySelection" type="radio" name="quality" quality="high"> high 
             <input class="qualitySelection" type="radio" name="quality" quality="med"> med 
-            <input class="qualitySelection" type="radio" name="quality" quality="low"> low
+            <input class="qualitySelection" type="radio" name="quality" quality="low" checked> low
         </div>
     </div>
 
