@@ -8,8 +8,8 @@ const sanitize = require('sanitize-filename')
 
 dotenv.config()
 
-const downloadDir = '../../storage/shared/Download/youtube/'
-// const downloadDir = '/home/will/videos/youtube/'
+let downloadDir = '../../storage/shared/Download/youtube/'
+// let downloadDir = '/home/will/videos/youtube/'
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -61,7 +61,7 @@ let downloadVideo = (URL, title, channel, quality, format) => {
 
     if(format == 'mp3'){
 
-      downloadDir = '../../storage/shared/Music/youtube'
+      downloadDir = '../../storage/shared/Music/youtube/'
 
       youtubeDownload(URL, {
         output: `${downloadDir}/${fileName}.%(ext)s`,
@@ -77,6 +77,7 @@ let downloadVideo = (URL, title, channel, quality, format) => {
       })
       .catch(err => {
         console.log(err)
+        if(downloadQueue.length == 1) downloadQueue = []
         downloadQueue.shift()
         downloading = false
       })
