@@ -31,14 +31,16 @@ body {
     font-weight: 600;
 }
 
-.qualitySelection {
-    
-}
-
 #quality {
     margin-top: 10%;
 }
 
 #mediaType {
     margin-top: 20%;
+}
+
+#notification {
+    margin-top: 10%;
+    width: 100%;
+    text-align: center;
 }

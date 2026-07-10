@@ -61,7 +61,7 @@ let downloadVideo = (URL, title, channel, quality, format) => {
 
     if(format == 'mp3'){
 
-      downloadDir = '../../storage/shared/Music/youtube/'
+      let downloadDir = '../../storage/shared/Music/youtube/'
 
       youtubeDownload(URL, {
         output: `${downloadDir}/${fileName}.%(ext)s`,
@@ -82,6 +82,8 @@ let downloadVideo = (URL, title, channel, quality, format) => {
         downloading = false
       })
     }else if(format == 'mp4'){
+
+      let downloadDir = '../../storage/shared/Video/youtube/'
 
       let downloadFormat = 'bv*+ba/b'
 

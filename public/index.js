@@ -26,7 +26,10 @@ let sendDownloadRequest = (videoUrl, format, quality) => {
         body: JSON.stringify(vidObj)
     }).then(res => res.text())
     .then(text => {
-        console.log(text); // "Download started"
+        $('#notification').text(text)
+        setTimeout(() => {
+            $('#notification').text('')
+        }, 2000)
     })
     .catch(err => console.error(err))
 }
