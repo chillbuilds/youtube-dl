@@ -1,5 +1,6 @@
 
 $('body').on('keypress', function(event) {
+    console.log(event.keyCode)
     let enterKey = 13
     if(event.keyCode == enterKey){
 

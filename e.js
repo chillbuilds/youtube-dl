@@ -96,7 +96,7 @@ let downloadVideo = (URL, title, channel, quality, format) => {
 
       youtubeDownload(URL, {
         output: `${downloadDir}/${fileName}.%(ext)s`,
-        format: format,
+        format: downloadFormat,
         mergeOutputFormat: 'mp4'
       })
       .then(output => {
