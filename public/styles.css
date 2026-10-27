@@ -39,7 +39,7 @@ body {
     margin-top: 20%;
 }
 
-#notification {
+.notifications {
     margin-top: 10%;
     width: 100%;
     text-align: center;

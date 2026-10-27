@@ -34,3 +34,11 @@ let sendDownloadRequest = (videoUrl, format, quality) => {
     })
     .catch(err => console.error(err))
 }
+
+let queueCheck = setInterval(() => {
+    fetch('/download-queue')
+    .then(response => response.json())
+    .then(data => {
+        $('#queue-count').text(`files in queue: ${data}`)
+    })
+}, 500)

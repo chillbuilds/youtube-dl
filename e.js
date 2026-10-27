@@ -3,13 +3,7 @@ const express = require('express')
 const path = require('path')
 const fs = require('fs')
 const { channel } = require('diagnostics_channel')
-const dotenv = require('dotenv')
 const sanitize = require('sanitize-filename')
-
-dotenv.config()
-
-let downloadDir = '../../storage/shared/Download/youtube/'
-// let downloadDir = '/home/will/videos/youtube/'
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -26,10 +20,9 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'))
 })
 
-let bodySlam = (message, vidObj) => {
-  console.log(message)
-  console.log(vidObj)
-}
+app.get('/download-queue', (req, res) => {
+  res.json(JSON.stringify(downloadQueue.length))
+})
 
 app.post('/download-video', (req, res) => {
 
@@ -57,11 +50,11 @@ setInterval(()=>{
 
 let downloadVideo = (URL, title, channel, quality, format) => {
 
-    let fileName = sanitize(channel + ' - ' + title)
+    let fileName = sanitize(title)
 
     if(format == 'mp3'){
 
-      let downloadDir = '../../storage/shared/Music/youtube/'
+      let downloadDir = '../../storage/shared/Music/youtube/' + channel
 
       youtubeDownload(URL, {
         output: `${downloadDir}/${fileName}.%(ext)s`,
@@ -83,7 +76,7 @@ let downloadVideo = (URL, title, channel, quality, format) => {
       })
     }else if(format == 'mp4'){
 
-      let downloadDir = '../../storage/shared/Video/youtube/'
+      let downloadDir = '../../storage/shared/Video/youtube/' + channel
 
       let downloadFormat = 'bv*+ba/b'
 
